@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日复盘 — Daily Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #2B7FD8;
+  --gold: #F4D758;
+  --red: #E84A5F;
+  --cream: #fefcf6;
+  --ink: #1A1A2E;
+  --ink-light: #4A4A5A;
+  --ink-faint: #8A8A9A;
+  --card-bg: #fff;
+  --border: rgba(26,26,26,.08);
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+::selection { background: var(--gold); color: var(--ink); }
+body {
+  font-family: 'Noto Sans SC', -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.container { max-width: 840px; margin: 0 auto; padding: 0 24px; width: 100%; }
+
+/* ===== Header ===== */
+.app-header {
+  position: sticky; top: 0; z-index: 100;
+  height: 56px;
+  background: var(--cream);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+.app-header h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.app-header .sub {
+  font-size: 13px;
+  color: var(--ink-faint);
+}
+
+/* ===== Hero ===== */
+.hero {
+  text-align: center;
+  padding: 72px 24px 48px;
+  position: relative;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 40px; height: 3px;
+  background: var(--gold);
+  border-radius: 2px;
+}
+.hero .badge {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(43,127,216,0.08);
+  color: var(--blue);
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(32px, 6vw, 48px);
+  font-weight: 900;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.hero p {
+  font-size: 15px;
+  color: var(--ink-light);
+  line-height: 1.6;
+}
+
+/* ===== Content ===== */
+.page { flex: 1; margin-top: 40px; }
+
+.section-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--gold);
+  display: inline-block;
+  padding-bottom: 4px;
+}
+
+/* ===== Timeline ===== */
+.timeline {
+  position: relative;
+  padding-left: 28px;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: var(--border);
+  border-radius: 1px;
+}
+.timeline-item {
+  position: relative;
+  padding: 18px 22px;
+  margin-bottom: 12px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.04);
+  transition: transform .2s, box-shadow .2s;
+  border: 1px solid var(--border);
+}
+.timeline-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,.06);
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -22px;
+  top: 24px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--blue);
+  border: 2px solid var(--cream);
+}
+.timeline-item .date {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-faint);
+  letter-spacing: 0.2px;
+  margin-bottom: 6px;
+}
+.timeline-item .title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.timeline-item .title a { color: var(--ink); }
+.timeline-item .title a:hover { color: var(--blue); }
+.timeline-item .desc {
+  font-size: 13px;
+  color: var(--ink-light);
+  line-height: 1.6;
+}
+
+/* ===== Stats Cards ===== */
+.card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 24px 28px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.04);
+  border: 1px solid var(--border);
+  transition: transform .2s, box-shadow .2s;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,.06);
+}
+.card .label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.card .value {
+  font-size: 15px;
+  color: var(--ink);
+  line-height: 1.5;
+}
+.card .value.num {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--blue);
+}
+
+.section-spacer {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--border), transparent);
+  margin: 48px 0;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+/* ===== Footer ===== */
+.footer {
+  text-align: center;
+  padding: 40px 0;
+  font-size: 13px;
+  color: var(--ink-faint);
+  border-top: 1px solid var(--border);
+  margin-top: 60px;
+}
+.footer a { color: var(--ink-faint); text-decoration: underline; }
+.footer a:hover { color: var(--blue); }
+
+/* ===== Responsive ===== */
+@media (max-width: 640px) {
+  .hero h1 { font-size: 28px; }
+  .hero { padding: 48px 16px 36px; }
+  .card { padding: 18px 20px; }
+}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <h1>📋 复盘</h1>
+  <span class="sub">由 WorkBuddy 自动生成</span>
+</header>
+
+<section class="hero">
+  <div class="badge">🔄 每日更新</div>
+  <h1>每日复盘</h1>
+  <p>WorkBuddy 每日 22:30 自动生成 · 记录工作、提炼经验、持续进化</p>
+</section>
+
+<div class="page">
+  <div class="container">
+
+    <div class="section-title">📆 复盘记录</div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="date">2026-06-09 · 周二</div>
+        <div class="title"><a href="2026-06-09.html">状态突破 · 神意照黄庭 Day1 启动</a></div>
+        <div class="desc">经验：纯洁的愿望是关键、额轮堵了不清理额轮、滕州战场亡灵验证。反思：女神护身颂时长瞎编、给了精确编码还多问。</div>
+      </div>
+      <div class="timeline-item">
+        <div class="date">2026-06-08 · 周一</div>
+        <div class="title"><a href="2026-06-08.html">状态梳理验证 + 技能体系重构</a></div>
+        <div class="desc">经验：源头原则铁律、花小钱办大事、9点不等了。完成大量技能合并和统计页面重构。</div>
+      </div>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <div class="section-title">📊 总览</div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="label">累计天数</div>
+        <div class="value num">2</div>
+      </div>
+      <div class="card">
+        <div class="label">最新复盘</div>
+        <div class="value">2026-06-09</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>由 WorkBuddy 每日 22:30 自动复盘 · <a href="https://github.com/wherejiahe-bot/daily-review">GitHub 仓库</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -4,180 +4,287 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>100天 · 神意照黄庭</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@700;900&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-  :root {
-    --bg: #f5f5f5;
-    --surface: rgba(255,255,255,0.72);
-    --border: rgba(0,0,0,0.06);
-    --text: #1a1a1a;
-    --text-dim: #8a8a8a;
-    --accent: #c4a46c;
-    --accent-light: #e8dcc8;
-    --done: #7bc4a0;
-    --miss: #e8b4b4;
-    --radius: 12px;
-  }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Noto Sans SC", sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.6;
-    word-break: keep-all;
-    overflow-wrap: anywhere;
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-  }
-  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px; }
+:root {
+  --blue: #2B7FD8;
+  --gold: #F4D758;
+  --red: #E84A5F;
+  --cream: #fefcf6;
+  --ink: #1A1A2E;
+  --ink-light: #4A4A5A;
+  --ink-faint: #8A8A9A;
+  --card-bg: #fff;
+  --border: rgba(26,26,26,.08);
+  --done: #2B7FD8;
+  --done-light: rgba(43,127,216,0.08);
+  --gold-light: rgba(244,215,88,0.15);
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+::selection { background: var(--gold); color: var(--ink); }
+body {
+  font-family: 'Noto Sans SC', -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.6;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 720px; margin: 0 auto; padding: 0 20px; }
 
-  /* 玻璃卡片 */
-  .glass {
-    background: var(--surface);
-    backdrop-filter: blur(32px);
-    -webkit-backdrop-filter: blur(32px);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 24px;
-  }
+/* ===== Sticky Header ===== */
+.app-header {
+  position: sticky; top: 0; z-index: 100;
+  height: 56px;
+  background: var(--cream);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px;
+}
+.app-header h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+.header-badge {
+  font-size: 0.7rem;
+  padding: 3px 10px;
+  border-radius: 8px;
+  background: var(--done-light);
+  color: var(--blue);
+  font-weight: 500;
+}
 
-  /* 层级 */
-  .display { font-size: clamp(48px, 8vw, 96px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
-  .headline { font-size: clamp(32px, 5vw, 56px); font-weight: 700; letter-spacing: -0.01em; line-height: 1.2; }
-  .subtitle { font-size: clamp(20px, 2.5vw, 28px); font-weight: 600; line-height: 1.3; }
-  .body { font-size: clamp(16px, 1.5vw, 20px); font-weight: 400; line-height: 1.6; }
-  .caption { font-size: clamp(13px, 1.2vw, 15px); font-weight: 400; color: var(--text-dim); }
+/* ===== Hero ===== */
+.hero {
+  text-align: center;
+  padding: 60px 20px 40px;
+  position: relative;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 40px; height: 3px;
+  background: var(--gold);
+  border-radius: 2px;
+}
+.hero .num {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(72px, 15vw, 120px);
+  font-weight: 900;
+  line-height: 1;
+  color: var(--blue);
+  letter-spacing: -0.04em;
+}
+.hero .label {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(20px, 3.5vw, 32px);
+  color: var(--ink-light);
+  margin-top: 4px;
+}
+.hero .desc {
+  font-size: 14px;
+  color: var(--ink-faint);
+  margin-top: 8px;
+}
 
-  /* 头部 */
-  header { text-align: center; margin-bottom: 48px; }
-  header .display { margin-bottom: 8px; }
-  header .caption { margin-top: 4px; }
+/* ===== Cards ===== */
+.card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.04);
+  margin-bottom: 16px;
+}
+.card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-faint);
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
 
-  /* 今日状态 */
-  .today-card { margin-bottom: 32px; text-align: center; }
-  .today-card .headline { margin-bottom: 4px; }
-  .today-status { display: inline-block; padding: 8px 24px; border-radius: 100px; font-weight: 510; font-size: 16px; }
-  .today-status.done { background: var(--done); color: #fff; }
-  .today-status.pending { background: var(--miss); color: #fff; }
+/* ===== Today ===== */
+.today-card { text-align: center; }
+.today-card .date { font-size: 14px; color: var(--ink-faint); margin-bottom: 4px; }
+.today-card .num { font-size: 28px; font-weight: 700; color: var(--ink); }
+.today-status {
+  display: inline-block;
+  padding: 6px 20px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 8px;
+}
+.today-status.done { background: var(--done-light); color: var(--blue); }
+.today-status.pending { background: rgba(232,74,95,0.08); color: var(--red); }
 
-  /* 进度条 */
-  .progress-section { margin-bottom: 32px; }
-  .progress-label { display: flex; justify-content: space-between; margin-bottom: 8px; }
-  .progress-track { height: 8px; background: #e0e0e0; border-radius: 4px; overflow: hidden; }
-  .progress-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.6s ease; }
-  .progress-stats { display: flex; gap: 24px; margin-top: 12px; flex-wrap: wrap; }
-  .progress-stats .stat { flex: 1; min-width: 80px; text-align: center; }
-  .progress-stats .stat .val { font-size: 28px; font-weight: 700; }
-  .progress-stats .stat .lbl { font-size: 13px; color: var(--text-dim); }
+/* ===== Progress ===== */
+.progress-label {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 8px;
+}
+.progress-label .val { font-size: 28px; font-weight: 700; color: var(--blue); }
+.progress-label .total { font-size: 14px; color: var(--ink-faint); }
+.progress-track {
+  height: 8px;
+  background: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue), #4a8fe0);
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+.stat {
+  text-align: center;
+  padding: 12px;
+  background: var(--cream);
+  border-radius: 8px;
+}
+.stat .val { font-size: 22px; font-weight: 700; color: var(--ink); }
+.stat .lbl { font-size: 12px; color: var(--ink-faint); margin-top: 2px; }
 
-  /* 热力图 */
-  .heatmap-section { margin-bottom: 32px; }
-  .heatmap-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(32px, 1fr));
-    gap: 6px;
-    margin-top: 12px;
-  }
-  .heatmap-cell {
-    aspect-ratio: 1;
-    border-radius: 4px;
-    background: #e8e8e8;
-    position: relative;
-    cursor: pointer;
-  }
-  .heatmap-cell.done { background: var(--accent); }
-  .heatmap-cell.today { outline: 2px solid var(--accent); outline-offset: -2px; }
-  .heatmap-cell:hover::after {
-    content: attr(data-tip);
-    position: absolute;
-    bottom: calc(100% + 6px);
-    left: 50%;
-    transform: translateX(-50%);
-    background: #333;
-    color: #fff;
-    font-size: 12px;
-    padding: 4px 8px;
-    border-radius: 4px;
-    white-space: nowrap;
-    z-index: 10;
-  }
+/* ===== Heatmap ===== */
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(28px, 1fr));
+  gap: 4px;
+}
+.heatmap-cell {
+  aspect-ratio: 1;
+  border-radius: 3px;
+  background: #eee;
+  position: relative;
+  cursor: pointer;
+}
+.heatmap-cell.done { background: var(--blue); opacity: 0.65; }
+.heatmap-cell.today { outline: 2px solid var(--gold); outline-offset: -1px; }
+.heatmap-cell:hover::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--ink);
+  color: #fff;
+  font-size: 11px;
+  padding: 3px 7px;
+  border-radius: 4px;
+  white-space: nowrap;
+  z-index: 10;
+}
 
-  /* 记录表 */
-  .log-section .glass { padding: 16px 24px; }
-  .log-entry { display: flex; align-items: center; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--border); }
-  .log-entry:last-child { border-bottom: 0; }
-  .log-entry .date { width: 100px; font-weight: 510; flex-shrink: 0; }
-  .log-entry .badge { font-size: 14px; padding: 2px 10px; border-radius: 100px; }
-  .log-entry .badge.done { background: var(--done); color: #fff; }
-  .log-entry .badge.miss { background: var(--miss); color: #fff; }
-  .log-entry .note { color: var(--text-dim); font-size: 14px; }
+/* ===== Log ===== */
+.log-entry {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.log-entry:last-child { border-bottom: 0; }
+.log-entry .date { width: 90px; font-weight: 500; font-size: 14px; flex-shrink: 0; }
+.log-entry .badge {
+  font-size: 12px; padding: 2px 10px; border-radius: 100px;
+  background: var(--done-light); color: var(--blue); font-weight: 600;
+}
+.log-entry .note { color: var(--ink-faint); font-size: 13px; }
+.empty-state { text-align: center; padding: 40px 0; color: var(--ink-faint); }
 
-  .empty-state { text-align: center; padding: 48px 0; color: var(--text-dim); }
-  .empty-state .subtitle { margin-bottom: 8px; color: var(--text-dim); }
+/* ===== Diary ===== */
+.diary-section { margin-top: 24px; }
+.diary-section .card { padding: 20px 24px; }
+.diary-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.diary-header h3 { font-size: 15px; font-weight: 600; }
+.diary-date { font-size: 12px; color: var(--blue); font-weight: 500; margin-bottom: 8px; }
+.diary-body { font-size: 14px; line-height: 1.8; color: var(--ink); white-space: pre-wrap; }
+.diary-source {
+  margin-top: 14px;
+  padding: 12px 16px;
+  background: var(--gold-light);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 6px 6px 0;
+  font-size: 13px;
+  color: #5a4a30;
+}
+.diary-empty { color: var(--ink-faint); font-size: 14px; padding: 16px 0; text-align: center; }
 
-  /* 日记卡片 */
-  .diary-section { margin-top: 32px; }
-  .diary-section .glass { padding: 20px 24px; }
-  .diary-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
-  .diary-date { font-weight: 510; color: var(--accent); }
-  .diary-body { font-size: 15px; line-height: 1.8; color: var(--text); white-space: pre-wrap; }
-  .diary-source { margin-top: 16px; padding: 12px 16px; background: var(--accent-light); border-radius: 8px; font-size: 14px; color: #5a4a30; }
-  .diary-empty { color: var(--text-dim); font-size: 14px; padding: 16px 0; text-align: center; }
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .hero { padding: 40px 16px 32px; }
+  .card { padding: 18px; }
+  .stats-grid { gap: 8px; }
+  .stat .val { font-size: 18px; }
+  .log-entry .date { width: 75px; font-size: 13px; }
+}
 </style>
 </head>
 <body>
-<div class="container" id="app">
 
-  <header>
-    <div class="display">100</div>
-    <div class="subtitle" style="color:var(--text-dim);">天 · 神意照黄庭</div>
-    <div class="caption">每日15分钟，神意内照，回收精气。</div>
-  </header>
+<header class="app-header">
+  <h1>神意照黄庭</h1>
+  <span class="header-badge">100-day</span>
+</header>
 
-  <!-- 今日状态 -->
-  <div class="today-card glass" id="todayCard">
-    <div class="caption" style="margin-bottom:4px;">今日</div>
-    <div class="headline" id="todayDate">—</div>
+<div class="container">
+
+  <section class="hero">
+    <div class="num">100</div>
+    <div class="label">天</div>
+    <div class="desc">每日15分钟，神意内照</div>
+  </section>
+
+  <div class="card today-card">
+    <div class="date" id="todayDate">—</div>
+    <div class="num" id="todayDayNum">Day 1</div>
     <div class="today-status" id="todayStatus">加载中...</div>
   </div>
 
-  <!-- 进度 -->
-  <div class="progress-section glass">
+  <div class="card">
     <div class="progress-label">
-      <span class="body" id="doneCount">0</span>
-      <span class="caption">/ 100 天</span>
+      <span class="val" id="doneCount">0</span>
+      <span class="total">/ 100 天</span>
     </div>
     <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-    <div class="progress-stats">
+    <div class="stats-grid">
       <div class="stat"><div class="val" id="statDone">0</div><div class="lbl">已完成</div></div>
-      <div class="stat"><div class="val" id="statStreak">0</div><div class="lbl">连续天数</div></div>
+      <div class="stat"><div class="val" id="statStreak">0</div><div class="lbl">连续</div></div>
       <div class="stat"><div class="val" id="statRemain">100</div><div class="lbl">剩余</div></div>
     </div>
   </div>
 
-  <!-- 热力图 -->
-  <div class="heatmap-section glass">
-    <div class="body" style="margin-bottom:4px;">进度一览</div>
-    <div class="caption" style="margin-bottom:8px;">每日一格</div>
+  <div class="card">
+    <div class="card-title">进度一览</div>
     <div class="heatmap-grid" id="heatmapGrid"></div>
   </div>
 
-  <!-- 记录 -->
-  <div class="log-section">
-    <div class="body" style="margin-bottom:12px;">每日记录</div>
-    <div class="glass" id="logList">
-      <div class="empty-state">
-        <div class="subtitle">尚未开始</div>
-        <div class="body">今天就开始你的第一个15分钟吧。</div>
-      </div>
+  <div class="card">
+    <div class="card-title">每日记录</div>
+    <div id="logList">
+      <div class="empty-state">尚未开始</div>
     </div>
   </div>
 
-  <!-- 今日日记 -->
   <div class="diary-section">
-    <div class="glass" id="diaryCard">
+    <div class="card" id="diaryCard">
       <div class="diary-header">
-        <span>📖</span>
-        <span class="body">今日日记</span>
+        <span style="font-size:18px;">📖</span>
+        <h3>今日日记</h3>
       </div>
       <div id="diaryContent">
         <div class="diary-empty">完成练习后，日记会自动记录在这里。</div>
@@ -214,7 +321,6 @@ function calcStreak(days) {
   const sorted = days.slice().sort().reverse();
   let streak = 0;
   const today = todayStr();
-  // 从今天或昨天开始算连续
   const start = new Date();
   for (let i = 0; i < sorted.length; i++) {
     const expected = formatDate(new Date(start.getTime() - (streak) * 86400000));
@@ -228,7 +334,6 @@ function generateHeatmapHTML(days) {
   const daySet = new Set(days);
   const today = todayStr();
   const daysEl = [];
-  // 从100天前到今天
   const start = new Date();
   start.setDate(start.getDate() - 99);
   for (let i = 0; i < 100; i++) {
@@ -250,35 +355,31 @@ async function render() {
   const streak = calcStreak(days);
   const remain = Math.max(0, 100 - doneCount);
 
-  // 今日
   document.getElementById('todayDate').textContent = today;
+  document.getElementById('todayDayNum').textContent = 'Day ' + (doneCount || 1);
   const statusEl = document.getElementById('todayStatus');
   statusEl.textContent = doneToday ? '✅ 已完成' : '⏳ 未完成';
   statusEl.className = 'today-status ' + (doneToday ? 'done' : 'pending');
 
-  // 进度
   document.getElementById('doneCount').textContent = doneCount;
   document.getElementById('progressFill').style.width = (doneCount / 100 * 100) + '%';
   document.getElementById('statDone').textContent = doneCount;
   document.getElementById('statStreak').textContent = streak;
   document.getElementById('statRemain').textContent = remain;
 
-  // 热力图
   document.getElementById('heatmapGrid').innerHTML = generateHeatmapHTML(days);
 
-  // 记录列表
   const logDiv = document.getElementById('logList');
   if (days.length === 0) {
-    logDiv.innerHTML = '<div class="empty-state"><div class="subtitle">尚未开始</div><div class="body">今天就开始你的第一个15分钟吧。</div></div>';
+    logDiv.innerHTML = '<div class="empty-state">尚未开始</div>';
   } else {
     const sorted = days.slice().sort().reverse();
     logDiv.innerHTML = sorted.map(s => {
-      const badge = doneToday && isToday(s) ? '<span class="badge done">✅ 完成</span>' : '<span class="badge done">✅</span>';
-      return `<div class="log-entry"><span class="date body">${s}</span>${badge} <span class="note">神意照黄庭 15min</span></div>`;
+      const badge = '<span class="badge">✅ 完成</span>';
+      return `<div class="log-entry"><span class="date">${s}</span>${badge} <span class="note">神意照黄庭 15min</span></div>`;
     }).join('');
   }
 
-  // 今日日记
   const diaryEl = document.getElementById('diaryContent');
   const notes = data.notes || {};
   const todayNote = notes[today];
@@ -294,7 +395,7 @@ async function render() {
       }
     }
     diaryEl.innerHTML = `
-      <div class="diary-date caption">${today} · Day ${days.length}</div>
+      <div class="diary-date">${today} · Day ${days.length}</div>
       <div class="diary-body">${bodyLines.join('\n')}</div>
       ${sourceHtml}
     `;
