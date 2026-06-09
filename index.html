@@ -224,6 +224,22 @@ body {
 }
 .diary-empty { color: var(--ink-faint); font-size: 14px; padding: 16px 0; text-align: center; }
 
+/* Diary date selector */
+.diary-selector {
+  display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px;
+}
+.diary-selector button {
+  padding: 4px 12px; border-radius: 6px; border: 1px solid var(--border);
+  background: transparent; cursor: pointer; font-size: 12px; color: var(--ink-light);
+  transition: all .15s; font-family: inherit;
+}
+.diary-selector button:hover { border-color: var(--blue); color: var(--blue); }
+.diary-selector button.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+/* Log entry clickable */
+.log-entry { cursor: pointer; }
+.log-entry:hover { background: var(--done-light); margin: 0 -4px; padding: 10px 4px; border-radius: 6px; }
+
 /* ===== Responsive ===== */
 @media (max-width: 600px) {
   .hero { padding: 40px 16px 32px; }
@@ -284,8 +300,9 @@ body {
     <div class="card" id="diaryCard">
       <div class="diary-header">
         <span style="font-size:18px;">📖</span>
-        <h3>今日日记</h3>
+        <h3>每日日记</h3>
       </div>
+      <div class="diary-selector" id="diarySelector"></div>
       <div id="diaryContent">
         <div class="diary-empty">完成练习后，日记会自动记录在这里。</div>
       </div>
@@ -380,28 +397,67 @@ async function render() {
     }).join('');
   }
 
-  const diaryEl = document.getElementById('diaryContent');
+  // Build diary selector from all dates with notes
   const notes = data.notes || {};
-  const todayNote = notes[today];
-  if (doneToday && todayNote) {
-    const lines = todayNote.split('\n');
-    const bodyLines = [];
-    let sourceHtml = '';
-    for (const line of lines) {
-      if (line.startsWith('✨')) {
-        sourceHtml = `<div class="diary-source">${line.replace('✨', '').trim()}</div>`;
-      } else if (line.trim()) {
-        bodyLines.push(line);
+  const noteDates = Object.keys(notes).sort().reverse();
+
+  const diaryEl = document.getElementById('diaryContent');
+  const selEl = document.getElementById('diarySelector');
+  let activeDiaryDate = noteDates.length > 0 ? noteDates[0] : null;
+
+  function viewDiary(date) {
+    activeDiaryDate = date;
+    // Update selector buttons
+    selEl.querySelectorAll('button').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.date === date);
+    });
+    // Render diary
+    const note = notes[date];
+    if (note) {
+      const dayIndex = days.indexOf(date) + 1;
+      const lines = note.split('\n');
+      const bodyLines = [];
+      let sourceHtml = '';
+      for (const line of lines) {
+        if (line.startsWith('✨')) {
+          sourceHtml = `<div class="diary-source">${line.replace('✨', '').trim()}</div>`;
+        } else if (line.trim()) {
+          bodyLines.push(line);
+        }
       }
+      diaryEl.innerHTML = `
+        <div class="diary-date">${date} · Day ${dayIndex}</div>
+        <div class="diary-body">${bodyLines.join('\n')}</div>
+        ${sourceHtml}
+      `;
+    } else {
+      diaryEl.innerHTML = '<div class="diary-empty">该日暂无日记记录。</div>';
     }
-    diaryEl.innerHTML = `
-      <div class="diary-date">${today} · Day ${days.length}</div>
-      <div class="diary-body">${bodyLines.join('\n')}</div>
-      ${sourceHtml}
-    `;
+  }
+
+  // Render selector buttons
+  if (noteDates.length > 0) {
+    selEl.innerHTML = noteDates.map(d =>
+      `<button class="${d === activeDiaryDate ? 'active' : ''}" data-date="${d}">${d}</button>`
+    ).join('');
+    selEl.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => viewDiary(btn.dataset.date));
+    });
+    viewDiary(activeDiaryDate);
   } else {
+    selEl.innerHTML = '';
     diaryEl.innerHTML = '<div class="diary-empty">完成练习后，日记会自动记录在这里。</div>';
   }
+
+  // Make log entries clickable — view diary for that date
+  document.querySelectorAll('.log-entry').forEach(el => {
+    const dateEl = el.querySelector('.date');
+    if (dateEl && notes[dateEl.textContent.trim()]) {
+      el.style.cursor = 'pointer';
+      el.title = '点击查看日记';
+      el.addEventListener('click', () => viewDiary(dateEl.textContent.trim()));
+    }
+  });
 }
 
 render();
