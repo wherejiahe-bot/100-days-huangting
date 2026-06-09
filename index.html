@@ -113,6 +113,15 @@
 
   .empty-state { text-align: center; padding: 48px 0; color: var(--text-dim); }
   .empty-state .subtitle { margin-bottom: 8px; color: var(--text-dim); }
+
+  /* 日记卡片 */
+  .diary-section { margin-top: 32px; }
+  .diary-section .glass { padding: 20px 24px; }
+  .diary-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .diary-date { font-weight: 510; color: var(--accent); }
+  .diary-body { font-size: 15px; line-height: 1.8; color: var(--text); white-space: pre-wrap; }
+  .diary-source { margin-top: 16px; padding: 12px 16px; background: var(--accent-light); border-radius: 8px; font-size: 14px; color: #5a4a30; }
+  .diary-empty { color: var(--text-dim); font-size: 14px; padding: 16px 0; text-align: center; }
 </style>
 </head>
 <body>
@@ -159,6 +168,19 @@
       <div class="empty-state">
         <div class="subtitle">尚未开始</div>
         <div class="body">今天就开始你的第一个15分钟吧。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 今日日记 -->
+  <div class="diary-section">
+    <div class="glass" id="diaryCard">
+      <div class="diary-header">
+        <span>📖</span>
+        <span class="body">今日日记</span>
+      </div>
+      <div id="diaryContent">
+        <div class="diary-empty">完成练习后，日记会自动记录在这里。</div>
       </div>
     </div>
   </div>
@@ -254,6 +276,30 @@ async function render() {
       const badge = doneToday && isToday(s) ? '<span class="badge done">✅ 完成</span>' : '<span class="badge done">✅</span>';
       return `<div class="log-entry"><span class="date body">${s}</span>${badge} <span class="note">神意照黄庭 15min</span></div>`;
     }).join('');
+  }
+
+  // 今日日记
+  const diaryEl = document.getElementById('diaryContent');
+  const notes = data.notes || {};
+  const todayNote = notes[today];
+  if (doneToday && todayNote) {
+    const lines = todayNote.split('\n');
+    const bodyLines = [];
+    let sourceHtml = '';
+    for (const line of lines) {
+      if (line.startsWith('✨')) {
+        sourceHtml = `<div class="diary-source">${line.replace('✨', '').trim()}</div>`;
+      } else if (line.trim()) {
+        bodyLines.push(line);
+      }
+    }
+    diaryEl.innerHTML = `
+      <div class="diary-date caption">${today} · Day ${days.length}</div>
+      <div class="diary-body">${bodyLines.join('\n')}</div>
+      ${sourceHtml}
+    `;
+  } else {
+    diaryEl.innerHTML = '<div class="diary-empty">完成练习后，日记会自动记录在这里。</div>';
   }
 }
 
